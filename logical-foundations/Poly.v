@@ -154,7 +154,7 @@ Inductive grumble (X:Type) : Type :=
       - [e bool true] YES.
       - [e mumble (b c 0)] YES.
       - [e bool (b c 0)] NO. ((b c 0) isn't in bool)
-      - [c]  YES. *)
+      - [c]  NO. c is not a constructor of type grumble *)
 
 End MumbleGrumble.
 
