@@ -128,8 +128,8 @@ Proof.
     [rewrite].  What are the situations where both can usefully be
     applied? *)
 
-(* Apply is useful when the goal exactly matches with a hypothesis/theorem.
-   So it complete proof (at least for the proof's that we've seen so far).
+(* Apply is useful when the goal exactly matches with a previously proven theorem.
+   If the theorem has assumptions, we proceed to proving them. Otherwise, proof is complete.
 
    To use rewrite, it's sufficient to one side of the goal matches with either
    side of the goal. Also, this is not sufficient to complete the proof.
@@ -668,22 +668,17 @@ Theorem plus_n_n_injective : forall n m,
 Proof.
   intros n.
   induction n as [| n' IH].
-  - simpl.
-    intros m H.
-    rewrite H.
-    destruct m.
+  - destruct m. 
     + reflexivity.
-    + discriminate.
-  - simpl.
-    intros m H.
+    + discriminate. 
+  - intros m H.
     destruct m.
     + discriminate.
-    + apply f_equal.
-      apply IH.
-      injection H as H.
-      rewrite <- plus_n_Sm in H.
+    + rewrite <- plus_n_Sm in H.
       rewrite <- plus_n_Sm in H.
       injection H as H.
+      apply IH in H.
+      f_equal.
       apply H.
   Qed.
 
@@ -1007,8 +1002,7 @@ Proof.
     rewrite <- H'.
     simpl.
     apply f_equal.
-    rewrite -> IHl.
-    reflexivity.
+    apply IHl.
     reflexivity.
   Qed.
 
